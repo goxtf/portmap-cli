@@ -68,3 +68,11 @@ func TestFilterEmpty(t *testing.T) {
 		t.Errorf("expected all entries with empty filter, got %d", len(result))
 	}
 }
+
+func TestFilterOnEmptyInput(t *testing.T) {
+	f := NewFilter(FilterOptions{Protocol: "TCP"})
+	result := f.Apply([]PortEntry{})
+	if len(result) != 0 {
+		t.Errorf("expected 0 entries when filtering empty input, got %d", len(result))
+	}
+}
