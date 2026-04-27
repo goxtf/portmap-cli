@@ -16,6 +16,9 @@ const (
 	SortByState    SortField = "state"
 )
 
+// ValidSortFields lists all accepted sort field values.
+var ValidSortFields = []SortField{SortByPort, SortByProtocol, SortByProcess, SortByState}
+
 // Sorter sorts port entries by a given field.
 type Sorter struct {
 	field   SortField
@@ -32,6 +35,16 @@ func NewSorter(field string, reverse bool) (*Sorter, error) {
 		return nil, fmt.Errorf("invalid sort field %q: must be one of port, protocol, process, state", field)
 	}
 	return &Sorter{field: f, reverse: reverse}, nil
+}
+
+// Field returns the field this Sorter is configured to sort by.
+func (s *Sorter) Field() SortField {
+	return s.field
+}
+
+// Reverse returns true if the Sorter is configured to sort in descending order.
+func (s *Sorter) Reverse() bool {
+	return s.reverse
 }
 
 // Sort returns a sorted copy of the provided entries.
