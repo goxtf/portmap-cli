@@ -65,3 +65,20 @@ func TestExportOutputFlag(t *testing.T) {
 		t.Errorf("expected empty default output, got '%s'", f.DefValue)
 	}
 }
+
+func TestExportCommandValidFormats(t *testing.T) {
+	validFormats := []string{"json", "yaml"}
+	for _, format := range validFormats {
+		t.Run(format, func(t *testing.T) {
+			cmd := exportCmd
+			var buf bytes.Buffer
+			cmd.SetOut(&buf)
+			cmd.SetErr(&buf)
+			cmd.SetArgs([]string{"--format", format})
+			err := cmd.RunE(cmd, []string{})
+			if err != nil {
+				t.Errorf("expected no error for valid format '%s', got: %v", format, err)
+			}
+		})
+	}
+}
