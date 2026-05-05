@@ -32,14 +32,19 @@ func TestPipelineCmdRegistered(t *testing.T) {
 	}
 }
 
-func TestPipelineProtocolFlag(t *testing.T) {
-	var cmd *cobra.Command
+// findPipelineCmd is a helper that locates the pipeline subcommand from the
+// root command's children, returning nil if it is not registered.
+func findPipelineCmd() *cobra.Command {
 	for _, c := range rootCmd.Commands() {
 		if c.Name() == "pipeline" {
-			cmd = c
-			break
+			return c
 		}
 	}
+	return nil
+}
+
+func TestPipelineProtocolFlag(t *testing.T) {
+	cmd := findPipelineCmd()
 	if cmd == nil {
 		t.Fatal("pipeline command not found")
 	}
@@ -50,13 +55,7 @@ func TestPipelineProtocolFlag(t *testing.T) {
 }
 
 func TestPipelineDedupFlag(t *testing.T) {
-	var cmd *cobra.Command
-	for _, c := range rootCmd.Commands() {
-		if c.Name() == "pipeline" {
-			cmd = c
-			break
-		}
-	}
+	cmd := findPipelineCmd()
 	if cmd == nil {
 		t.Fatal("pipeline command not found")
 	}
@@ -70,13 +69,7 @@ func TestPipelineDedupFlag(t *testing.T) {
 }
 
 func TestPipelineSortFlag(t *testing.T) {
-	var cmd *cobra.Command
-	for _, c := range rootCmd.Commands() {
-		if c.Name() == "pipeline" {
-			cmd = c
-			break
-		}
-	}
+	cmd := findPipelineCmd()
 	if cmd == nil {
 		t.Fatal("pipeline command not found")
 	}
