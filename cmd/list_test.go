@@ -18,6 +18,17 @@ func resetListFlags() {
 	outputFormat = "table"
 }
 
+// findListCmd is a helper that retrieves the "list" subcommand from rootCmd.
+// It returns nil if the command is not registered.
+func findListCmd() *cobra.Command {
+	for _, cmd := range rootCmd.Commands() {
+		if cmd.Use == "list" {
+			return cmd
+		}
+	}
+	return nil
+}
+
 func TestListCommandHelp(t *testing.T) {
 	defer resetListFlags()
 
@@ -54,13 +65,7 @@ func TestListCmdRegistered(t *testing.T) {
 func TestListProtocolFlag(t *testing.T) {
 	defer resetListFlags()
 
-	var listCmd *cobra.Command
-	for _, cmd := range rootCmd.Commands() {
-		if cmd.Use == "list" {
-			listCmd = cmd
-			break
-		}
-	}
+	listCmd := findListCmd()
 	if listCmd == nil {
 		t.Fatal("list command not found")
 	}
@@ -77,13 +82,7 @@ func TestListProtocolFlag(t *testing.T) {
 func TestListStateFlag(t *testing.T) {
 	defer resetListFlags()
 
-	var listCmd *cobra.Command
-	for _, cmd := range rootCmd.Commands() {
-		if cmd.Use == "list" {
-			listCmd = cmd
-			break
-		}
-	}
+	listCmd := findListCmd()
 	if listCmd == nil {
 		t.Fatal("list command not found")
 	}
@@ -100,13 +99,7 @@ func TestListStateFlag(t *testing.T) {
 func TestListFormatFlag(t *testing.T) {
 	defer resetListFlags()
 
-	var listCmd *cobra.Command
-	for _, cmd := range rootCmd.Commands() {
-		if cmd.Use == "list" {
-			listCmd = cmd
-			break
-		}
-	}
+	listCmd := findListCmd()
 	if listCmd == nil {
 		t.Fatal("list command not found")
 	}
@@ -123,13 +116,7 @@ func TestListFormatFlag(t *testing.T) {
 func TestListPortFlag(t *testing.T) {
 	defer resetListFlags()
 
-	var listCmd *cobra.Command
-	for _, cmd := range rootCmd.Commands() {
-		if cmd.Use == "list" {
-			listCmd = cmd
-			break
-		}
-	}
+	listCmd := findListCmd()
 	if listCmd == nil {
 		t.Fatal("list command not found")
 	}
