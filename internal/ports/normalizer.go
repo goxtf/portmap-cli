@@ -62,3 +62,12 @@ func (n *Normalizer) Normalize(entries []PortEntry) []PortEntry {
 	}
 	return result
 }
+
+// Fields returns the list of fields this Normalizer is configured to normalize.
+func (n *Normalizer) Fields() []NormalizeField {
+	fields := make([]NormalizeField, 0, len(n.fields))
+	for f := range n.fields {
+		fields = append(fields, f)
+	}
+	return fields
+}
