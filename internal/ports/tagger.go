@@ -29,14 +29,17 @@ var validTagFields = map[string]bool{
 }
 
 // NewTagger creates a Tagger from the given rules.
-// Returns an error if any rule references an invalid field.
+// Returns an error if any rule references an invalid field or has an empty tag key.
 func NewTagger(rules []TagRule) (*Tagger, error) {
 	for _, r := range rules {
 		if !validTagFields[r.Field] {
-			return nil, fmt.Errorf("tagger: invalid field %q", r.Field)
+			return nil, fmt.Errorf("tagger: invalid field %q (valid fields: protocol, state, process, port)", r.Field)
 		}
 		if r.Key == "" {
 			return nil, fmt.Errorf("tagger: tag key must not be empty")
+		}
+		if r.Match == "" {
+			return nil, fmt.Errorf("tagger: match value must not be empty for rule with key %q", r.Key)
 		}
 	}
 	return &Tagger{rules: rules}, nil
