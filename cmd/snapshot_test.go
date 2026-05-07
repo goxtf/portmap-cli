@@ -27,25 +27,27 @@ func TestSnapshotCmdRegistered(t *testing.T) {
 	t.Fatal("snapshot command not registered")
 }
 
-func TestSnapshotDirFlag(t *testing.T) {
+// snapshotHelpOutput is a helper that runs the snapshot --help command and
+// returns the output string, reducing duplication across flag tests.
+func snapshotHelpOutput(t *testing.T) string {
+	t.Helper()
 	cmd := rootCmd
 	buf := new(bytes.Buffer)
 	cmd.SetOut(buf)
 	cmd.SetArgs([]string{"snapshot", "--help"})
 	_ = cmd.Execute()
-	out := buf.String()
+	return buf.String()
+}
+
+func TestSnapshotDirFlag(t *testing.T) {
+	out := snapshotHelpOutput(t)
 	if !strings.Contains(out, "--dir") {
 		t.Errorf("expected --dir flag in help, got: %s", out)
 	}
 }
 
 func TestSnapshotDiffFlag(t *testing.T) {
-	cmd := rootCmd
-	buf := new(bytes.Buffer)
-	cmd.SetOut(buf)
-	cmd.SetArgs([]string{"snapshot", "--help"})
-	_ = cmd.Execute()
-	out := buf.String()
+	out := snapshotHelpOutput(t)
 	if !strings.Contains(out, "--diff") {
 		t.Errorf("expected --diff flag in help, got: %s", out)
 	}
