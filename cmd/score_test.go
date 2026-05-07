@@ -73,3 +73,19 @@ func TestScoreJSONFlag(t *testing.T) {
 		t.Errorf("expected default false, got %s", f.DefValue)
 	}
 }
+
+// TestScoreWeightRegFlag verifies that the --weight-reg flag exists and
+// defaults to 1, representing the weight applied to registered ports.
+func TestScoreWeightRegFlag(t *testing.T) {
+	cmd := findScoreCmd(rootCmd)
+	if cmd == nil {
+		t.Fatal("score command not found")
+	}
+	f := cmd.Flags().Lookup("weight-reg")
+	if f == nil {
+		t.Fatal("expected --weight-reg flag")
+	}
+	if f.DefValue != "1" {
+		t.Errorf("expected default 1, got %s", f.DefValue)
+	}
+}
